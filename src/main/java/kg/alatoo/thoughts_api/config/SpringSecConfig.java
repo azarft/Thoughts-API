@@ -32,6 +32,7 @@ public class SpringSecConfig {
                 .authorizeHttpRequests(
                         req -> req
                                 .requestMatchers("/api/v1/auth/*").permitAll()
+                                .requestMatchers("/api/v1/auth/*").permitAll()
                                 .requestMatchers("/api/**").authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

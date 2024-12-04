@@ -5,9 +5,8 @@ import kg.alatoo.thoughts_api.dto.authorization.AuthLoginDto;
 import kg.alatoo.thoughts_api.dto.authorization.JwtTokenDto;
 import kg.alatoo.thoughts_api.dto.authorization.AuthRegistrationDTO;
 import kg.alatoo.thoughts_api.dto.authorization.RefreshTokenRequestDTO;
+import kg.alatoo.thoughts_api.dto.reset.PasswordResetDTO;
 import kg.alatoo.thoughts_api.entities.RefreshToken;
-import kg.alatoo.thoughts_api.entities.User;
-import kg.alatoo.thoughts_api.entities.VerificationToken;
 import kg.alatoo.thoughts_api.repositories.UserRepository;
 import kg.alatoo.thoughts_api.repositories.VerificationTokenRepository;
 import kg.alatoo.thoughts_api.services.AuthService;
@@ -49,31 +48,33 @@ public class AuthController {
 
     @GetMapping("/verify-email")
     public ResponseEntity<String> verifyEmail(@RequestParam("token") String token) {
-        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
-
-        if (verificationToken == null) {
-            return ResponseEntity.badRequest().body("Invalid verification token.");
+        try {
+            String response = authService.verifyEmail(token);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
 
-        User user = verificationToken.getUser();
-        if (user == null) {
-            return ResponseEntity.badRequest().body("No user found for this token.");
+    @PostMapping("/reset-password-request")
+    public ResponseEntity<String> resetPasswordRequest(@RequestBody PasswordResetDTO passwordResetDTO) {
+        try {
+            authService.sendPasswordResetRequest(passwordResetDTO);
+            return ResponseEntity.ok("Password reset link has been sent to your email.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
 
-        // Check if token is expired
-        Calendar cal = Calendar.getInstance();
-        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            return ResponseEntity.badRequest().body("Verification token has expired.");
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam("token") String token,
+                                                @RequestParam("newPassword") String newPassword) {
+        try {
+            String response = authService.resetPassword(token, newPassword);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        // Enable the user
-        user.setEnabled(true);
-        userRepository.save(user);
-
-        // Optionally delete the verification token after successful verification
-        verificationTokenRepository.delete(verificationToken);
-
-        return ResponseEntity.ok("Email verified successfully. You can now log in.");
     }
 
     @PostMapping("/login")

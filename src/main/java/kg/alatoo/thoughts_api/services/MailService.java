@@ -1,5 +1,6 @@
 package kg.alatoo.thoughts_api.services;
 
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,7 +18,6 @@ public class MailService {
         message.setSubject(subject);
         message.setText(body);
         message.setFrom("azanovazar@gmail.com"); // Optional: Set your sender email
-
         mailSender.send(message);
     }
 }
