@@ -1,4 +1,4 @@
-package kg.alatoo.thoughts_api.entities;
+package kg.alatoo.thoughts_api.entities.tokens;
 
 
 import jakarta.persistence.Entity;
@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import kg.alatoo.thoughts_api.entities.User;
 import kg.alatoo.thoughts_api.enums.TokenType;
 import lombok.Getter;
 import lombok.Setter;

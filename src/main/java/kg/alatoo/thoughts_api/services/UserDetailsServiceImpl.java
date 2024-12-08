@@ -13,21 +13,16 @@ import java.util.Optional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-        User user = optionalUser.orElseThrow(() -> new UsernameNotFoundException("Invalid Username"));
-
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                user.isEnabled(), // Only allow login if the user is enabled (email verified)
-                true, true, true,
-                user.getAuthorities()
-        );
+        Optional<User> user = userRepository.findByUsername(username);
+        return user.orElseThrow(()->new UsernameNotFoundException("Invalid Username"));
     }
 }
 

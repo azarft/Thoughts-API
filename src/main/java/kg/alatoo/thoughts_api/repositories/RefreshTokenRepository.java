@@ -1,6 +1,6 @@
 package kg.alatoo.thoughts_api.repositories;
 
-import kg.alatoo.thoughts_api.entities.RefreshToken;
+import kg.alatoo.thoughts_api.entities.tokens.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

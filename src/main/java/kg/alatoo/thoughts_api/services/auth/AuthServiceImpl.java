@@ -1,11 +1,11 @@
-package kg.alatoo.thoughts_api.services;
+package kg.alatoo.thoughts_api.services.auth;
 
 import kg.alatoo.thoughts_api.dto.UserDTO;
 import kg.alatoo.thoughts_api.dto.authorization.AuthRegistrationDTO;
 import kg.alatoo.thoughts_api.dto.reset.PasswordResetDTO;
 import kg.alatoo.thoughts_api.entities.Role;
 import kg.alatoo.thoughts_api.entities.User;
-import kg.alatoo.thoughts_api.entities.VerificationToken;
+import kg.alatoo.thoughts_api.entities.tokens.VerificationToken;
 import kg.alatoo.thoughts_api.enums.TokenType;
 import kg.alatoo.thoughts_api.exceptions.ApiException;
 import kg.alatoo.thoughts_api.mappers.UserMapper;
@@ -13,11 +13,9 @@ import kg.alatoo.thoughts_api.repositories.RoleRepository;
 import kg.alatoo.thoughts_api.repositories.UserRepository;
 import kg.alatoo.thoughts_api.repositories.VerificationTokenRepository;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.Set;

@@ -1,6 +1,6 @@
-package kg.alatoo.thoughts_api.services;
+package kg.alatoo.thoughts_api.services.auth;
 
-import kg.alatoo.thoughts_api.entities.RefreshToken;
+import kg.alatoo.thoughts_api.entities.tokens.RefreshToken;
 import kg.alatoo.thoughts_api.entities.User;
 import kg.alatoo.thoughts_api.repositories.RefreshTokenRepository;
 import kg.alatoo.thoughts_api.repositories.UserRepository;

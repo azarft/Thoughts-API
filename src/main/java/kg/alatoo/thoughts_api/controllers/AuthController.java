@@ -6,12 +6,12 @@ import kg.alatoo.thoughts_api.dto.authorization.JwtTokenDto;
 import kg.alatoo.thoughts_api.dto.authorization.AuthRegistrationDTO;
 import kg.alatoo.thoughts_api.dto.authorization.RefreshTokenRequestDTO;
 import kg.alatoo.thoughts_api.dto.reset.PasswordResetDTO;
-import kg.alatoo.thoughts_api.entities.RefreshToken;
+import kg.alatoo.thoughts_api.entities.tokens.RefreshToken;
 import kg.alatoo.thoughts_api.repositories.UserRepository;
 import kg.alatoo.thoughts_api.repositories.VerificationTokenRepository;
-import kg.alatoo.thoughts_api.services.AuthService;
-import kg.alatoo.thoughts_api.services.JwtService;
-import kg.alatoo.thoughts_api.services.RefreshTokenService;
+import kg.alatoo.thoughts_api.services.auth.AuthService;
+import kg.alatoo.thoughts_api.services.auth.JwtService;
+import kg.alatoo.thoughts_api.services.auth.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Calendar;
 
 @RestController
 @RequestMapping("/api/v1/auth")

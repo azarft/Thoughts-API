@@ -1,4 +1,4 @@
-package kg.alatoo.thoughts_api.services;
+package kg.alatoo.thoughts_api.services.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

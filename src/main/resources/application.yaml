@@ -26,3 +26,6 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+file:
+  upload-dir: C:/Users/argoa/Desktop/projects/edu internship/thoughts_api/images/
+
