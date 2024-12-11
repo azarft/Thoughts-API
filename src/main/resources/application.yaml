@@ -14,8 +14,8 @@ spring:
   application:
     name: Thoughts API
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
+    url: jdbc:postgresql://46.101.231.121:5432/entries
+    username: azarft
     password: 12345
     driver-class-name: org.postgresql.Driver
   jpa:
@@ -26,6 +26,5 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
-file:
-  upload-dir: C:/Users/argoa/Desktop/projects/edu internship/thoughts_api/images/
+
 

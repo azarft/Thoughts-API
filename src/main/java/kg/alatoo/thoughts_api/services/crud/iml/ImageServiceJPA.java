@@ -20,6 +20,7 @@ import org.springframework.mock.web.MockMultipartFile;
 
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,8 +33,6 @@ import java.util.stream.Collectors;
 public class ImageServiceJPA implements ImageService {
 
     private final UserRepository userRepository;
-    @Value("${file.upload-dir}")
-    private String uploadDir;
 
     private final ImageRepository imageRepository;
     private final UserService userService;
@@ -49,24 +48,16 @@ public class ImageServiceJPA implements ImageService {
     }
 
     private Image saveImage(MultipartFile file) throws IOException {
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
         String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
-        String uniqueFilename = System.currentTimeMillis() + "_" + originalFilename;
-        Path filePath = uploadPath.resolve(uniqueFilename);
+        String uniqueFilename = System.currentTimeMillis() + "_" + originalFilename; // Ensure unique naming
+        FileOutputStream out = new FileOutputStream("images/" + uniqueFilename);
 
-        file.transferTo(filePath.toFile());
-
+        out.write(file.getBytes());
         Image image = new Image();
-        image.setImageUrl(uploadPath.toAbsolutePath().toString() + "/" + uniqueFilename);
+        image.setImageUrl("images/" + uniqueFilename);
 
         return image;
     }
-
-
 
     public ImageDTO saveImageToEntry(Long id, MultipartFile file) throws IOException {
         Image image = saveImage(file);
@@ -116,18 +107,16 @@ public class ImageServiceJPA implements ImageService {
     }
 
     private MultipartFile convertImageToMultipartFile(Image image) throws IOException {
-        // Get the file path from the image URL
         String imagePath = image.getImageUrl();
         File file = new File(imagePath);
 
-        // Check if the file exists
         if (!file.exists()) {
             throw new IOException("File not found at path: " + imagePath);
         }
 
-        // Convert the file to a MultipartFile
         return convertFileToMultipartFile(file);
     }
+
 
     private MultipartFile convertFileToMultipartFile(File file) throws IOException {
         if (file == null || !file.exists()) {
