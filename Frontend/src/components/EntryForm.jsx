@@ -5,26 +5,26 @@ export default function EntryForm({ onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (entry.name && entry.content) {
-      onSubmit(entry);
-    } else {
-      alert("Title and content cannot be empty.");
-    }
+    onSubmit(entry);
+    setEntry({ name: "", content: "" });
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
+        type="text"
         placeholder="Title"
         value={entry.name}
         onChange={(e) => setEntry({ ...entry, name: e.target.value })}
+        required
       />
       <textarea
         placeholder="Content"
         value={entry.content}
         onChange={(e) => setEntry({ ...entry, content: e.target.value })}
+        required
       />
-      <button type="submit">Save</button>
+      <button type="submit">Create Entry</button>
     </form>
   );
 }

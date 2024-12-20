@@ -1,12 +1,28 @@
-const uploadImage = async (file, entryId) => {
-  const formData = new FormData();
-  formData.append("file", file);
+import React, { useState } from "react";
+import { uploadImageToEntry } from "../api/images";
 
-  const res = await axios.post(
-    `http://46.101.231.121:8080/api/v1/images/entry/${entryId}`,
-    formData,
-    { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+export default function ImageUploader({ entryId, token, onUploadSuccess }) {
+  const [file, setFile] = useState(null);
+
+  const handleUpload = async () => {
+    try {
+      if (file) {
+        await uploadImageToEntry(entryId, file, token);
+        alert("Image uploaded successfully!");
+        onUploadSuccess();
+      } else {
+        alert("Please select a file first.");
+      }
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      alert("Image upload failed.");
+    }
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+      <button onClick={handleUpload}>Upload Image</button>
+    </div>
   );
-
-  return res.data;
-};
+}
